@@ -15,7 +15,6 @@
         .chord-card { background: white; padding: 15px; border-radius: 12px; box-shadow: 0 8px 15px rgba(0,0,0,0.1); cursor: pointer; min-width: 180px; transition: transform 0.1s; border: 2px solid transparent; }
         .chord-card:hover { transform: scale(1.02); border-color: #007bff; }
         .chord-name { margin: 0 0 10px 0; font-size: 1.4em; color: #007bff; font-weight: bold; }
-        /* ポジション数字のスタイル調整 */
         svg text { font-weight: bold !important; font-size: 14px !important; transform: translateX(-6px); }
     </style>
 </head>
@@ -25,7 +24,7 @@
     <div class="controls">
         <input type="text" id="progression" placeholder="例: C G/B Am7 D/F# Cadd9" value="C G/B Am7 D/F# Cadd9">
         <button onclick="updateChords()">表示</button>
-        <p class="usage-note">＊指板表をクリックすると、ハイポジションコードが数パターン表示されます。</p>
+        <p class="usage-note">＊指板表をクリックすると、ハイポジションコードが数パターン表示できます。</p>
     </div>
 
     <div id="chord-container"></div>
@@ -33,7 +32,6 @@
     <script>
         let voicingState = {};
 
-        // プリセットデータベース（よく使う形を最優先）
         const PRESETS = {
             "C": [null, 3, 2, 0, 1, 0], "G": [3, 2, 0, 0, 0, 3], "A": [null, 0, 2, 2, 2, 0],
             "E": [0, 2, 2, 1, 0, 0], "D": [null, null, 0, 2, 3, 2], "Am": [null, 0, 2, 2, 1, 0],
@@ -105,8 +103,6 @@
             const frets = all[voicingState[name] % all.length];
             const active = frets.filter(f => f !== null && f > 0);
             const minF = active.length > 0 ? Math.min(...active) : 0;
-            
-            // 3フレット目以降は数字表示に切り替え（はみ出し防止）
             let baseF = minF > 2 ? minF : 0;
             const chordFormat = frets.map((f, i) => [6 - i, f === null ? 'x' : (f > 0 && baseF > 0 ? f - baseF + 1 : f)]);
 
